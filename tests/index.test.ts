@@ -25,5 +25,5 @@ test('functions', () => {
 	doesNotThrow(() => isHoliday(new Date(`${y1}-01-01T00:00:00+0900`)));
 
 	deepEqual(getHolidayNames(new Date(`${y1}-03-01T00:00:00+0900`)), ['3ㆍ1절']);
-	equal(getHolidayNames(new Date(`${y1}-03-02T00:00:00+0900`)), null);
+	equal(getHolidayNames(new Date(`${y1}-12-31T00:00:00+0900`)), null);
 });

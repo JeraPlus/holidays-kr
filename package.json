@@ -5,10 +5,10 @@
 	"scripts": {
 		"check": "tsc --noEmit",
 		"prepack": "tsup && publint",
-		"version": "node --run write && git add -A public",
+		"preversion": "node --test",
+		"version": "node src/write.ts && git add -A public",
 		"postversion": "git push && git push --tags && node cli/postversion.ts",
-		"format": "prettier --write .",
-		"write": "node src/write.ts"
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"@types/node": "^24.7.1",
