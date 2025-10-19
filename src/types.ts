@@ -1,2 +1,8 @@
-export type Preset = Readonly<Record<string, ReadonlyArray<string> | undefined>>;
-export type Presets = Partial<Record<string, Preset>>;
+export type Preset = Readonly<
+	Record<
+		`${number}-${number}-${number}`, // date (yyyy-mm-dd)
+		ReadonlyArray<string> // names (holiday, anniversary)
+	>
+>;
+
+export type Presets = Readonly<Record<`y${number}`, Preset>>;

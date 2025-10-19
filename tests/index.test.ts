@@ -1,6 +1,6 @@
 import { deepEqual, doesNotThrow, equal, throws } from 'node:assert/strict';
 import { test } from 'node:test';
-import { parse } from 'valibot';
+import { number, parse, pipe, tuple } from 'valibot';
 import * as latest from '../src/holidays.latest.ts';
 import * as all from '../src/holidays.ts';
 import { getHolidayNames, isHoliday } from '../src/index.ts';
@@ -8,7 +8,11 @@ import { PresetsKeysToYearsSchema } from './schemas.ts';
 
 test('functions', () => {
 	const allYears = parse(PresetsKeysToYearsSchema, Object.keys(all));
-	const latestYears = parse(PresetsKeysToYearsSchema, Object.keys(latest));
+
+	const latestYears = parse(
+		pipe(PresetsKeysToYearsSchema, tuple([number(), number()])),
+		Object.keys(latest),
+	);
 
 	deepEqual(allYears.slice(-2), latestYears);
 	equal(latestYears.length, 2);

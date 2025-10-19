@@ -1,13 +1,12 @@
 import {
 	array,
 	custom,
+	digits,
 	everyItem,
 	integer,
-	isoDate,
+	length,
 	minLength,
-	number,
 	pipe,
-	regex,
 	startsWith,
 	string,
 	transform,
@@ -15,30 +14,18 @@ import {
 
 export const PresetsKeyToYearSchema = pipe(
 	string(),
-	regex(/^y2\d{3}$/),
-	transform((v) => Number(v.substring(1))),
-	number(),
+	length(5),
+	startsWith('y'),
+	transform((v) => v.substring(1)),
+	digits(),
+	transform(Number),
 	integer(),
 );
 
 export const PresetsKeysToYearsSchema = pipe(
 	array(PresetsKeyToYearSchema),
-	everyItem((year, index, array) => !index || year === array[index - 1] + 1),
+	everyItem((cur, idx, arr) => !idx || cur === arr[idx - 1]! + 1),
 );
-
-export const createPresetKeysSchema = (year: number) =>
-	pipe(
-		array(
-			pipe(
-				string(),
-				isoDate(),
-				startsWith(`${year}-`),
-				// new Date() does not throw error
-				// new Date('2024-06-31'); // Mon Jul 01 2024
-			),
-		),
-		everyItem((date, index, array) => !index || date > array[index - 1]),
-	);
 
 export const PresetValuesToSubjectsSchema = pipe(
 	array(
